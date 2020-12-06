@@ -1,5 +1,10 @@
 const Author = require('../models/author');
 
+// Display list of all authors
+exports.author_list = function (req, res) {
+  res.send('NOT IMPLEMNTED: Author list')
+}
+
 // Display detail page for a specific author
 exports.author_detail = function (req, res) {
   res.send('NOT IMPLEMENTED: Author detail: ' + req.params.id);
@@ -9,10 +14,12 @@ exports.author_detail = function (req, res) {
 exports.author_create_get = function (req, res) {
   res.send('NOT IMPLEMENTED: Author create GET');
 };
+
 // Handle Author create on POST
 exports.author_create_post = function (req, res) {
   res.send('NOT IMPLEMENTED: Author create POST');
 };
+
 // Display Author delete form on GET
 exports.author_delete_get = function (req, res) {
   res.send('NOT IMPLEMENTED: Author delete GET');
