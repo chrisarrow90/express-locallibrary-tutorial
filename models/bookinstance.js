@@ -16,7 +16,7 @@ const BookInstanceSchema = new Schema (
 BookInstanceSchema
   .virtual('url')
   .get(function () {
-    return '/catolog/book' + this._id;
+    return '/catolog/bookinstance/' + this._id;
   })
 
 // Export Model
