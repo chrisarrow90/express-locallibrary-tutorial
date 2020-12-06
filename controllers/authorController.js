@@ -2,8 +2,8 @@ const Author = require('../models/author');
 
 // Display list of all authors
 exports.author_list = function (req, res) {
-  res.send('NOT IMPLEMNTED: Author list')
-}
+  res.send('NOT IMPLEMENTED: Author list');
+};
 
 // Display detail page for a specific author
 exports.author_detail = function (req, res) {
@@ -36,6 +36,6 @@ exports.author_update_get = function (req, res) {
 };
 
 // Handle Author update on POST
-exports.author_update_post = funcion (req, res) {
-  res.send('NOT IMPLEMENTED: Author update POST')
-}
+exports.author_update_post = function (req, res) {
+  res.send('NOT IMPLEMENTED: Author update POST');
+};
