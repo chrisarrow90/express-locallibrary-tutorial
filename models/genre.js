@@ -16,4 +16,4 @@ GenreSchema
   })
 
 // Export Model
-module.exports = mongoose.export('Genre', GenreSchema);
+module.exports = mongoose.model('Genre', GenreSchema);
