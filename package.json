@@ -11,7 +11,6 @@
     "async": "^3.2.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
-    "eslint": "^7.15.0",
     "express": "~4.16.1",
     "express-validator": "^6.7.0",
     "http-errors": "~1.6.3",
@@ -20,6 +19,9 @@
     "pug": "2.0.0-beta11"
   },
   "devDependencies": {
+    "eslint": "^7.15.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
     "nodemon": "^2.0.6"
   }
 }

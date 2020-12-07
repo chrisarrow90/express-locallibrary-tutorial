@@ -10,7 +10,7 @@ const book_instance_controller = require('../controllers/bookinstanceController'
 /// BOOK ROUTES ///
 
 // GET catolog home page
-router.get('/', book_controller.index);
+router.get('/', book_controller.index); // this maps to /catalog/
 
 // GET request for creating a book
 router.get('/book/create', book_controller.book_create_get);
