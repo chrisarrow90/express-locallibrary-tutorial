@@ -1,24 +1,23 @@
 const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 const BookInstanceSchema = new Schema({
-  book: { type: Schema.Types.ObjectId, ref: 'Book', required: true }, // reference to associated book
+  book: { type: Schema.Types.ObjectId, ref: 'Book', required: true }, // reference to the associated book
   imprint: { type: String, required: true },
-  // enum - allowed values of a string
   status: {
     type: String,
     required: true,
-    enum: ['Available', 'Maintenance', 'Loanded', 'Reserved'],
+    enum: ['Available', 'Maintenance', 'Loaned', 'Reserved'],
     default: 'Maintenance',
   },
   due_back: { type: Date, default: Date.now },
 });
 
-// Virtual for bookinstance's url
+// Virtual for bookinstance's URL
 BookInstanceSchema.virtual('url').get(function () {
-  return '/catalog/bookinstance/' + this._id;
+  return `/catalog/bookinstance/${this._id}`; // eslint-disable-line no-underscore-dangle
 });
 
-// Export Model
+// Export model
 module.exports = mongoose.model('BookInstance', BookInstanceSchema);
