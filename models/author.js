@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { DateTime } = require('luxon');
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 const AuthorSchema = new Schema({
   first_name: { type: String, required: true, maxlength: 100 },
@@ -12,7 +12,7 @@ const AuthorSchema = new Schema({
 
 // Virtual for Author's full name
 AuthorSchema.virtual('name').get(function () {
-  return this.family_name + ', ' + this.first_name;
+  return `${this.family_name}, ${this.first_name}`;
 });
 
 // Virtual for Author's life span
@@ -22,7 +22,7 @@ AuthorSchema.virtual('lifespan').get(function () {
 
 // Virtual for Author's URL
 AuthorSchema.virtual('url').get(function () {
-  return '/catalog/author/' + this._id;
+  return `/catalog/author/${this._id}`; // eslint-disable-line no-underscore-dangle
 });
 
 // Virtuals for Date Formatting
