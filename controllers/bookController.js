@@ -68,7 +68,8 @@ exports.book_detail = (req, res, next) => {
       }
       // Success - render
       return res.render('book_detail', {
-        title: results.book.title,
+        title: 'Title: ',
+        book_title: results.book.title,
         book: results.book,
         book_instances: results.book_instance,
       });
