@@ -1,7 +1,7 @@
 const Author = require('../models/author');
 
 // Display list of all authors
-exports.author_list = function (req, res, next) {
+exports.author_list = (req, res, next) => {
   Author.find()
     .sort([['family_name', 'ascending']])
     // eslint-disable-next-line camelcase

@@ -2,8 +2,17 @@ const Genre = require('../models/genre');
 const { body, validiationResult } = require('express-validator');
 
 // Display list of all Genre.
-exports.genre_list = function (req, res) {
-  res.send('NOT IMPLEMENTED: Genre list');
+exports.genre_list = (req, res, next) => {
+  Genre.find()
+    .sort([['name', 'ascending']])
+    // eslint-disable-next-line camelcase
+    .exec((err, list_genres) => {
+      if (err) {
+        return next(err);
+      }
+      // Successful, so render
+      return res.render('genre_list', { title: 'Genre List', genre_list: list_genres });
+    });
 };
 
 // Display detail page for a specific Genre.
