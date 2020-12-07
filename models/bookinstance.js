@@ -20,6 +20,7 @@ BookInstanceSchema.virtual('url').get(function () {
   return `/catalog/bookinstance/${this._id}`; // eslint-disable-line no-underscore-dangle
 });
 
+// Virtual for Date Formatting
 BookInstanceSchema.virtual('due_back_formatted').get(function dueBackFormatted() {
   return DateTime.fromJSDate(this.due_back).toLocaleString(DateTime.DATE_MED);
 });
