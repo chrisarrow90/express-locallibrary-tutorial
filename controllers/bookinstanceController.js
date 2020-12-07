@@ -1,8 +1,21 @@
 const BookInstance = require('../models/bookinstance');
+const { nextTick } = require('async');
 
 // Display list of all BookInstances.
-exports.bookinstance_list = function (req, res) {
-  res.send('NOT IMPLEMENTED: BookInstance list');
+exports.bookinstance_list = (req, res, next) => {
+  BookInstance.find()
+    .populate('book') // replace book id with a full Book document
+    // eslint-disable-next-line camelcase
+    .exec((err, list_bookinstances) => {
+      if (err) {
+        return next(err);
+      }
+      // Successful, so render
+      return res.render('bookinstance_list', {
+        title: 'Book Instance List',
+        bookinstance_list: list_bookinstances,
+      });
+    });
 };
 
 // Display detail page for a specific BookInstance.
