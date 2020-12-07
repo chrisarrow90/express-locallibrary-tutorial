@@ -2,7 +2,8 @@ const Book = require('../models/book');
 
 // Display index page
 exports.index = function (req, res) {
-  res.send('NOT IMPLEMENTED: Site Home Page');
+  // res.send('NOT IMPLEMENTED: Site Home Page');
+  res.render('index');
 };
 
 // Display list of all books.
