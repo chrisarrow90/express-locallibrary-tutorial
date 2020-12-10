@@ -203,25 +203,27 @@ exports.genre_update_post = [
       // Data from form is valid. update form
       // Check if Genre with same name already exists
       // eslint-disable-next-line camelcase
-      Genre.findOne({ name: req.body.name }).exec((err, found_genre) => {
-        if (err) {
-          return next(err);
-        }
-        // eslint-disable-next-line camelcase
-        if (found_genre) {
-          // Genre already exists. Redirect to its detail page
-          res.redirect(found_genre.url);
-        } else {
+      Genre.findOne({ name: { $regex: new RegExp(req.body.name, 'i') } }).exec(
+        (err, found_genre) => {
+          if (err) {
+            return next(err);
+          }
           // eslint-disable-next-line camelcase
-          Genre.findByIdAndUpdate(req.params.id, genre, {}, (error, updated_genre) => {
-            if (error) {
-              return next(error);
-            }
-            // Success - redirect to genre detail page
-            res.redirect(updated_genre.url);
-          });
-        }
-      });
+          if (found_genre) {
+            // Genre already exists. Redirect to its detail page
+            res.redirect(found_genre.url);
+          } else {
+            // eslint-disable-next-line camelcase
+            Genre.findByIdAndUpdate(req.params.id, genre, {}, (error, updated_genre) => {
+              if (error) {
+                return next(error);
+              }
+              // Success - redirect to genre detail page
+              res.redirect(updated_genre.url);
+            });
+          }
+        },
+      );
     }
   },
 ];
