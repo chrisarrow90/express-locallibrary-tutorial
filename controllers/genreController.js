@@ -99,13 +99,70 @@ exports.genre_create_post = [
 ];
 
 // Display Genre delete form on GET.
-exports.genre_delete_get = function (req, res) {
-  res.send('NOT IMPLEMENTED: Genre delete GET');
+exports.genre_delete_get = (req, res, next) => {
+  async.parallel(
+    {
+      genre(callback) {
+        Genre.findById(req.params.id).exec(callback);
+      },
+      genre_books(callback) {
+        Book.find({ genre: req.params.id }).exec(callback);
+      },
+    },
+    (err, results) => {
+      if (err) {
+        return next(err);
+      }
+      if (results.genre == null) {
+        // no results - render list of genres
+        res.redirect('/catalog/genres');
+      }
+      // Success - render delete form
+      return res.render('genre_delete', {
+        title: 'Delete Genre',
+        genre: results.genre,
+        genre_books: results.genre_books,
+      });
+    },
+  );
 };
 
 // Handle Genre delete on POST.
-exports.genre_delete_post = function (req, res) {
-  res.send('NOT IMPLEMENTED: Genre delete POST');
+exports.genre_delete_post = (req, res, next) => {
+  async.parallel(
+    {
+      genre(callback) {
+        Genre.findById(req.body.genreid).exec(callback);
+      },
+      genre_books(callback) {
+        Book.find({ genre: req.body.genreid }).exec(callback);
+      },
+    },
+    (err, results) => {
+      if (err) {
+        return next(err);
+      }
+      // Success
+      if (results.genre_books.length > 0) {
+        // Genre has books. Render same as GET route to remind user to delete books
+        res.render('genre_delete', {
+          title: 'Delete Genre',
+          genre: results.genre,
+          genre_books: results.genre_books,
+        });
+        return;
+      } else {
+        // Genre has no books. Delete object and return to genre list
+        Genre.findByIdAndRemove(req.body.genreid, (err) => {
+          if (err) {
+            return next(err);
+          }
+          // Success - go to genre list
+          res.redirect('/catalog/genres');
+        });
+      }
+    },
+  );
 };
 
 // Display Genre update form on GET.
