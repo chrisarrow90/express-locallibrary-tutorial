@@ -166,11 +166,62 @@ exports.genre_delete_post = (req, res, next) => {
 };
 
 // Display Genre update form on GET.
-exports.genre_update_get = function (req, res) {
-  res.send('NOT IMPLEMENTED: Genre update GET');
+exports.genre_update_get = (req, res, next) => {
+  // Get Genre for form
+  Genre.findById(req.params.id, (err, genre) => {
+    if (err) {
+      return next(err);
+    }
+    if (genre == null) {
+      // No results
+      const error = new Error('Genre not found');
+      error.status = 404;
+      return next(err);
+    }
+    res.render('genre_form', { title: 'Update Genre', genre });
+  });
 };
 
 // Handle Genre update on POST.
-exports.genre_update_post = function (req, res) {
-  res.send('NOT IMPLEMENTED: Genre update POST');
-};
+exports.genre_update_post = [
+  // Validate and Sanitise name field
+  body('name', 'Genre name required').trim().isLength({ min: 1 }).escape(),
+
+  (req, res, next) => {
+    const errors = validationResult(req);
+
+    // Create a genre object with escapped/trimmed data and old id
+    const genre = new Genre({
+      name: req.body.name,
+      _id: req.params.id,
+    });
+
+    if (!errors.isEmpty()) {
+      // There are errors -so render form again with sanitised value/errors
+      res.render('genre_form', { title: 'Update Genre', genre, errors: errors.array() });
+    } else {
+      // Data from form is valid. update form
+      // Check if Genre with same name already exists
+      // eslint-disable-next-line camelcase
+      Genre.findOne({ name: req.body.name }).exec((err, found_genre) => {
+        if (err) {
+          return next(err);
+        }
+        // eslint-disable-next-line camelcase
+        if (found_genre) {
+          // Genre already exists. Redirect to its detail page
+          res.redirect(found_genre.url);
+        } else {
+          // eslint-disable-next-line camelcase
+          Genre.findByIdAndUpdate(req.params.id, genre, {}, (error, updated_genre) => {
+            if (error) {
+              return next(error);
+            }
+            // Success - redirect to genre detail page
+            res.redirect(updated_genre.url);
+          });
+        }
+      });
+    }
+  },
+];

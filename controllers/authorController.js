@@ -243,7 +243,6 @@ exports.author_update_post = [
     if (!errors.isEmpty()) {
       // Theree are errors - so render form again with sanitised values/errors messages
       res.render('author_form', { title: 'Update Author', author, errors: errors.array() });
-      return;
     } else {
       // Data from form is valid. Update form
       Author.findByIdAndUpdate(req.params.id, author, {}, (err, theauthor) => {
@@ -251,7 +250,7 @@ exports.author_update_post = [
           return next(err);
         }
         // Successful - redirect to author detail page
-        res.redirect(theauthor.url);
+        return res.redirect(theauthor.url);
       });
     }
   },
