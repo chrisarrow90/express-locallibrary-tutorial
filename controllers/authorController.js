@@ -130,7 +130,7 @@ exports.author_delete_get = (req, res, next) => {
       }
       if (results.author == null) {
         // no results - render list of all authors
-        res.direct('/catalog/authors');
+        res.redirect('/catalog/authors');
       }
       // Success - render delete form
       return res.render('author_delete', {
